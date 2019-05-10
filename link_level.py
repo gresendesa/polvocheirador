@@ -9,26 +9,26 @@ class RawSocket:
 		return self.conn.recvfrom(65536)
 
 class Ethernet:
-	def __init__(self, socket):
-		self.socket = socket
+	def __init__(self, raw_socket):
+		self.raw_socket = raw_socket
 		self.data = b''
 		self.addr = b''
 		
 	#Lê bytes do socket na ordem de transmissão. Dados crus	
 	def capture_bytes(self):
-		self.data, self.addr = socket.read()
+		self.data, self.addr = self.raw_socket.read()
 
 	#Interpreta bytes do socket conforme a estrutura mostrada na página 349 do Kurose
-	def get_frame(data):
+	def get_frame(self):
 		self.capture_bytes()
 		dest_mac, src_mac, type = struct.unpack('! 6s 6s H', self.data[:14])
-		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), stringify_mac_addr(src_mac), socket.htons(type), data[14:])
+		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), self.stringify_mac_addr(src_mac), socket.htons(type), self.data[14:])
 
-	def frames(data):
+	def frames(self):
 		while 1:
-			yield get_frame()
+			yield self.get_frame()
 
-	def stringify_mac_addr(bytes_addr):
+	def stringify_mac_addr(self, bytes_addr):
 		str_addr = map('{:02x}'.format, bytes_addr)
 		return ':'.join(str_addr).upper()
 
