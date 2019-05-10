@@ -8,7 +8,7 @@ class RawSocket:
 
 	#Extrai bufsize bytes do socket
 	def read(self):
-		return self.conn.recvfrom(bufsize=65536)
+		return self.conn.recvfrom(65536)
 
 #Classe que representa a camada de enlace
 class Ethernet:
