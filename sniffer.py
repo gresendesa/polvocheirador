@@ -1,6 +1,12 @@
 from link_level import RawSocket, Ethernet
+from network_level import IPDatagram
 
 e = Ethernet(raw_socket=RawSocket())
 
 for frame in e.frames():
-	print(frame)
+
+	if frame.type == Ethernet.Frame.IP_TYPE:
+
+		ipd = IPDatagram(raw_bytes=frame.data)
+		print(ipd)
+
