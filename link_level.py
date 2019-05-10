@@ -12,20 +12,21 @@ class RawSocket:
 
 #Classe que representa a camada de enlace
 class Ethernet:
+
 	def __init__(self, raw_socket):
 		self.raw_socket = raw_socket
-		self.data = b''
+		self.raw_content = b''
 		self.addr = b''
 		
 	#Lê bytes do socket na ordem de transmissão. Dados crus	
 	def capture_bytes(self):
-		self.data, self.addr = self.raw_socket.read()
+		self.raw_content, self.addr = self.raw_socket.read()
 
 	#Interpreta bytes do socket conforme a estrutura mostrada na página 349 do Kurose
 	def get_frame(self):
 		self.capture_bytes()
-		dest_mac, src_mac, type = struct.unpack('! 6s 6s H', self.data[:14])
-		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), self.stringify_mac_addr(src_mac), socket.htons(type), self.data[14:])
+		dest_mac, src_mac, type = struct.unpack('! 6s 6s H', self.raw_content[:14])
+		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), self.stringify_mac_addr(src_mac), socket.htons(type), self.raw_content[14:])
 
 	#Implementa um gerador para ser iterado no for (https://bit.ly/2HdCRHj)
 	def frames(self):
@@ -39,6 +40,9 @@ class Ethernet:
 
 	#Classe que representa um quadro Ethernet (da camada de enlace)
 	class Frame:
+
+		IP_TYPE = 8
+
 		def __init__(self, dest, src, type, data):
 			self.dest = dest
 			self.src = src
