@@ -27,7 +27,7 @@ class Ethernet:
 		dest_mac, src_mac, type = struct.unpack('! 6s 6s H', self.data[:14])
 		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), self.stringify_mac_addr(src_mac), socket.htons(type), self.data[14:])
 
-	#Implementa um gerador para ser iterado no for
+	#Implementa um gerador para ser iterado no for (https://bit.ly/2HdCRHj)
 	def frames(self):
 		while 1:
 			yield self.get_frame()
