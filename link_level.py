@@ -1,7 +1,7 @@
 import socket
 import struct
 
-class Socket:
+class RawSocket:
 	def __init__(self):
 		self.conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
 
@@ -23,6 +23,10 @@ class Ethernet:
 		self.capture_bytes()
 		dest_mac, src_mac, type = struct.unpack('! 6s 6s H', self.data[:14])
 		return Ethernet.Frame(self.stringify_mac_addr(dest_mac), stringify_mac_addr(src_mac), socket.htons(type), data[14:])
+
+	def frames(data):
+		while 1:
+			yield get_frame()
 
 	def stringify_mac_addr(bytes_addr):
 		str_addr = map('{:02x}'.format, bytes_addr)
