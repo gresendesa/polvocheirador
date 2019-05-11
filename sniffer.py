@@ -1,9 +1,9 @@
 from link_level import RawSocket, Ethernet
 from network_level import IPDatagram
 
-e = Ethernet(raw_socket=RawSocket())
+ethernet = Ethernet(raw_socket=RawSocket())
 
-for frame in e.frames():
+for frame in ethernet.frames():
 
 	if frame.type == Ethernet.Frame.IPv4_TYPE:
 
