@@ -3,6 +3,9 @@ import struct
 #Classe que representa a camada de rede
 class IPDatagram:
 
+	TCP = 6
+	UDP = 17
+
 	def __init__(self, raw_bytes):
 		self.version = raw_bytes[0] >> 4
 		self.header_len = (raw_bytes[0] & 15) * 4
