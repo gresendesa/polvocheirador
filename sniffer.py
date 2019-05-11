@@ -5,7 +5,7 @@ e = Ethernet(raw_socket=RawSocket())
 
 for frame in e.frames():
 
-	if frame.type == Ethernet.Frame.IP_TYPE:
+	if frame.type == Ethernet.Frame.IPv4_TYPE:
 
 		ipd = IPDatagram(raw_bytes=frame.data)
 		print(ipd)

@@ -41,7 +41,7 @@ class Ethernet:
 	#Classe que representa um quadro Ethernet (da camada de enlace)
 	class Frame:
 
-		IP_TYPE = 8
+		IPv4_TYPE = 8
 
 		def __init__(self, dest, src, type, data):
 			self.dest = dest
