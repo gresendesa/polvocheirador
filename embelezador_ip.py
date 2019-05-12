@@ -20,4 +20,15 @@ fundo_cinza_claro = lambda txt: "\033[47m {}\033[00m" .format(txt)
 
 
 class FiltroInstagram:
-	pass
+
+	def __init__(self, datagrama_ip):
+		self.datagrama_ip = datagrama_ip
+
+	def mostrar_IP(self):
+		pass
+
+	def mostrar_TCP(self):
+		pass
+
+	def mostrar_UDP(self):
+		pass
