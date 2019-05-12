@@ -10,17 +10,17 @@ for quadro in ethernet.quadros():
 
 		datagrama = DatagramaIP(bytes_brutos=quadro.data)
 		
-		if datagrama.proto == DatagramaIP.TCP:
+		if datagrama.protocolo == DatagramaIP.TCP:
 
 			print(PacoteTCP(bytes_brutos=datagrama.data))
 		
-		elif datagrama.proto == DatagramaIP.UDP:
+		elif datagrama.protocolo == DatagramaIP.UDP:
 
 			print(PacoteUDP(bytes_brutos=datagrama.data))
 
 		else:
 
-			print(datagrama, "type: ", datagrama.proto)
+			print(datagrama, "type: ", datagrama.protocolo)
 
 
 
