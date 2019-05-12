@@ -17,3 +17,7 @@ fundo_azul = 		lambda txt: "\033[44m {}\033[00m" .format(txt)
 fundo_purpura = 	lambda txt: "\033[45m {}\033[00m" .format(txt)
 fundo_ciano = 		lambda txt: "\033[46m {}\033[00m" .format(txt)
 fundo_cinza_claro = lambda txt: "\033[47m {}\033[00m" .format(txt)
+
+
+class FiltroInstagram:
+	pass
