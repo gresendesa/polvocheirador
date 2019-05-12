@@ -6,16 +6,16 @@ class IPDatagram:
 	TCP = 6
 	UDP = 17
 
-	def __init__(self, raw_bytes):
-		self.version = raw_bytes[0] >> 4
-		self.header_len = (raw_bytes[0] & 15) * 4
-		self.ttl, self.proto, self.raw_src, self.raw_target = struct.unpack('! 8x B B 2x 4s 4s', raw_bytes[:20])
-		self.src = self.stringfy_addr(self.raw_src)
-		self.target = self.stringfy_addr(self.raw_target)
-		self.data = raw_bytes[self.header_len:]
+	def __init__(self, bytes_brutos):
+		self.versao = bytes_brutos[0] >> 4
+		self.tam_cab = (bytes_brutos[0] & 15) * 4
+		self.ttl, self.proto, self.orig_bruto, self.dest_bruto = struct.unpack('! 8x B B 2x 4s 4s', bytes_brutos[:20])
+		self.orig = self.stringfy_endr(self.orig_bruto)
+		self.dest = self.stringfy_endr(self.dest_bruto)
+		self.data = bytes_brutos[self.tam_cab:]
 
-	def stringfy_addr(self, addr):
-		return '.'.join(map(str, addr))
+	def stringfy_endr(self, endr):
+		return '.'.join(map(str, endr))
 
 
 

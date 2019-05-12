@@ -2,21 +2,21 @@ from link_level import RawSocket, Ethernet
 from network_level import IPDatagram
 from transport_layer import UDPPackage, TCPPackage
 
-ethernet = Ethernet(raw_socket=RawSocket())
+ethernet = Ethernet(bytes_socket= RawSocket())
 
 for frame in ethernet.frames():
 
 	if frame.type == Ethernet.Frame.IPv4_TYPE:
 
-		datagram = IPDatagram(raw_bytes=frame.data)
+		datagram = IPDatagram(bytes_brutos=frame.data)
 		
 		if datagram.proto == IPDatagram.TCP:
 
-			print(TCPPackage(raw_bytes=datagram.data))
+			print(TCPPackage(bytes_brutos=datagram.data).orig_port)
 		
 		elif datagram.proto == IPDatagram.UDP:
 
-			print(UDPPackage(raw_bytes=datagram.data))
+			print(UDPPackage(bytes_brutos=datagram.data).orig_port)
 
 		else:
 
