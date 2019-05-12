@@ -16,7 +16,3 @@ class DatagramaIP:
 
 	def stringfy_endr(self, endr):
 		return '.'.join(map(str, endr))
-
-
-
-	

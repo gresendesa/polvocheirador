@@ -25,10 +25,31 @@ class FiltroInstagram:
 		self.datagrama_ip = datagrama_ip
 
 	def mostrar_IP(self):
+		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
+		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
+		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
+		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
+		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
+		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
+		print("Dados: " + str(self.datagrama_ip.data))
 		pass
 
 	def mostrar_TCP(self):
+		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
+		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
+		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
+		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
+		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
+		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
+		print("Dados: " + str(self.datagrama_ip.data))
 		pass
 
 	def mostrar_UDP(self):
+		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
+		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
+		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
+		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
+		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
+		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
+		print("Dados: " + str(self.datagrama_ip.data))
 		pass
