@@ -2,7 +2,7 @@ import socket
 import struct
 
 #Classe que representa o socket configurado para capturar pacotes de baixo nível
-class RawSocket:
+class SocketBaixoNivel:
 	def __init__(self):
 		self.conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
 
@@ -23,15 +23,15 @@ class Ethernet:
 		self.conteudo_bytes, self.endr = self.bytes_socket.le()
 
 	#Interpreta bytes do socket conforme a estrutura mostrada na página 349 do Kurose
-	def get_frame(self):
+	def pegar_quadro(self):
 		self.captura_bytes()
 		dest_mac, orig_mac, type = struct.unpack('! 6s 6s H', self.conteudo_bytes[:14])
-		return Ethernet.Frame(self.stringify_mac_endr(dest_mac), self.stringify_mac_endr(orig_mac), socket.htons(type), self.conteudo_bytes[14:])
+		return Ethernet.Quadro(self.stringify_mac_endr(dest_mac), self.stringify_mac_endr(orig_mac), socket.htons(type), self.conteudo_bytes[14:])
 
 	#Implementa um gerador para ser iterado no for (https://bit.ly/2HdCRHj)
-	def frames(self):
+	def quadros(self):
 		while 1:
-			yield self.get_frame()
+			yield self.pegar_quadro()
 
 	#Torna  mac de bytes para string
 	def stringify_mac_endr(self, bytes_endr):
@@ -39,7 +39,7 @@ class Ethernet:
 		return ':'.join(str_endr).upper()
 
 	#Classe que representa um quadro Ethernet (da camada de enlace)
-	class Frame:
+	class Quadro:
 
 		IPv4_TYPE = 8
 
