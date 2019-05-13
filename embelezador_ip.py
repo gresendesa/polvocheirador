@@ -1,55 +1,69 @@
-#Ideias tiradas de https://www.geeksforgeeks.org/print-colors-python-terminal/
+from camada_rede import IP
+from camada_transporte import SegmentoTCP, SegmentoUDP
 
-vermelho = 			lambda txt: "\033[91m {}\033[00m" .format(txt) 
-verde = 			lambda txt: "\033[92m {}\033[00m" .format(txt)
-amarelo = 			lambda txt: "\033[93m {}\033[00m" .format(txt)
-purpura_claro = 	lambda txt: "\033[94m {}\033[00m" .format(txt) 
-purpura = 			lambda txt: "\033[95m {}\033[00m" .format(txt)
-ciano = 			lambda txt: "\033[96m {}\033[00m" .format(txt)
-cinza_claro = 		lambda txt: "\033[97m {}\033[00m" .format(txt)
-preto = 			lambda txt: "\033[98m {}\033[00m" .format(txt)
+#Ideias das cores tiradas de https://www.geeksforgeeks.org/print-colors-python-terminal/
+color = lambda color, txt='': "{}{}\033[00m".format(color, txt)
 
-fundo_preto = 		lambda txt: "\033[40m {}\033[00m" .format(txt)
-fundo_vermelho =  	lambda txt: "\033[41m {}\033[00m" .format(txt)
-fundo_verde = 		lambda txt: "\033[42m {}\033[00m" .format(txt)
-fundo_laranja = 	lambda txt: "\033[43m {}\033[00m" .format(txt)
-fundo_azul = 		lambda txt: "\033[44m {}\033[00m" .format(txt)
-fundo_purpura = 	lambda txt: "\033[45m {}\033[00m" .format(txt)
-fundo_ciano = 		lambda txt: "\033[46m {}\033[00m" .format(txt)
-fundo_cinza_claro = lambda txt: "\033[47m {}\033[00m" .format(txt)
+vermelho =  		lambda txt='': color(color="\033[31m", txt=txt)
+verde =  			lambda txt='': color(color="\033[32m", txt=txt)
+azul =  			lambda txt='': color(color="\033[34m", txt=txt)
+magenta = 			lambda txt='': color(color="\033[36m", txt=txt)
+white = 			lambda txt='': color(color="\033[37m", txt=txt)
+vermelho_claro = 	lambda txt='': color(color="\033[91m", txt=txt)
+verde_claro = 		lambda txt='': color(color="\033[92m", txt=txt)
+amarelo = 			lambda txt='': color(color="\033[93m", txt=txt)
+purpura_claro = 	lambda txt='': color(color="\033[94m", txt=txt)
+purpura = 			lambda txt='': color(color="\033[95m", txt=txt)
+ciano = 			lambda txt='': color(color="\033[96m", txt=txt)
+cinza_claro = 		lambda txt='': color(color="\033[97m", txt=txt)
+preto = 			lambda txt='': color(color="\033[98m", txt=txt)
 
+fundo_preto = 		lambda txt='': color(color="\033[40m", txt=txt)
+fundo_vermelho =  	lambda txt='': color(color="\033[41m", txt=txt)
+fundo_verde = 		lambda txt='': color(color="\033[42m", txt=txt)
+fundo_laranja = 	lambda txt='': color(color="\033[43m", txt=txt)
+fundo_azul = 		lambda txt='': color(color="\033[44m", txt=txt)
+fundo_purpura = 	lambda txt='': color(color="\033[45m", txt=txt)
+fundo_ciano = 		lambda txt='': color(color="\033[46m", txt=txt)
+fundo_cinza_claro = lambda txt='': color(color="\033[47m", txt=txt)
 
+#Classe que representa a transformação dos dados em linhas legíveis no teminal
 class FiltroInstagram:
 
-	def __init__(self, datagrama_ip):
-		self.datagrama_ip = datagrama_ip
+	def __init__(self, datagrama_IP):
+		self.datagrama_IP = datagrama_IP
 
-	def mostrar_IP(self):
-		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
-		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
-		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
-		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
-		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
-		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
-		print("Dados: " + str(self.datagrama_ip.data))
-		pass
+	def mostrar_IP(self, numero):
+		self.printar(fundo_azul("Datagrama IPv{}, do quadro Ethernet {}".format(str(self.datagrama_IP.versao), numero)))
+		self.printar(purpura_claro("Tempo de vida (TTL):\t\t" + str(self.datagrama_IP.ttl)))
+		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))))
+		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))))
+		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))))
+		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))))
+
+		if self.datagrama_IP.protocolo == IP.Datagrama.TCP:
+			self.mostrar_TCP()
+		elif self.datagrama_IP.protocolo == IP.Datagrama.UDP:
+			self.mostrar_UDP()
 
 	def mostrar_TCP(self):
-		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
-		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
-		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
-		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
-		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
-		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
-		print("Dados: " + str(self.datagrama_ip.data))
-		pass
+		pacote_TCP = SegmentoTCP(bytes_brutos=self.datagrama_IP.dados)
+		self.printar(fundo_vermelho(amarelo("Segmento TCP")), recuo=3)
+		self.printar(white("Porta de origem: {}".format(pacote_TCP.orig_porta)), recuo=3)
+		self.printar(white("Porta de destino: {}".format(pacote_TCP.dest_porta)), recuo=3)
+		self.printar(white("Número de sequência: {}".format(pacote_TCP.sequencia)), recuo=3)
+		self.printar(white("Número de reconhecimento: {}".format(pacote_TCP.reconhecimento)), recuo=3)
+		self.printar(white("Flags: URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=3)
+		self.printar(white("Comprimento dos dados: {}".format(len(pacote_TCP.dados))), recuo=3)
 
 	def mostrar_UDP(self):
-		print(ciano("Versao: " + str(self.datagrama_ip.versao)))
-		print(purpura("Tamanho do cabecalho " + str(self.datagrama_ip.tam_cabecalho)))
-		print(purpura_claro("Tempo de vida (TTL): " + str(self.datagrama_ip.ttl)))
-		print(amarelo("Procolo: " + str(self.datagrama_ip.protocolo)))
-		print(verde("Endereco de Origem: " + self.datagrama_ip.orig))
-		print(vermelho("Endereco de Destino: " + self.datagrama_ip.dest))
-		print("Dados: " + str(self.datagrama_ip.data))
-		pass
+		pacote_UDP = SegmentoUDP(bytes_brutos=self.datagrama_IP.dados)
+		self.printar(fundo_ciano(vermelho("Segmento UDP")), recuo=3)
+		self.printar(white("Porta de origem: {}".format(pacote_UDP.orig_porta)), recuo=3)
+		self.printar(white("Porta de destino: {}".format(pacote_UDP.dest_porta)), recuo=3)
+		self.printar(white("Comprimento: {}".format(pacote_UDP.comprimento)), recuo=3)
+		self.printar(white("Comprimento dados: {}".format(len(pacote_UDP.dados))), recuo=3)
+
+	def printar(self, txt, recuo=0):
+		str_recuo = ' ' * recuo
+		print(str_recuo + txt)

@@ -17,6 +17,7 @@ class Ethernet:
 		self.bytes_socket = bytes_socket
 		self.conteudo_bytes = b''
 		self.endr = b''
+		self.contador_quadros = 0
 		
 	#Lê bytes do socket na ordem de transmissão. Dados crus	
 	def captura_bytes(self):
@@ -31,6 +32,7 @@ class Ethernet:
 	#Implementa um gerador para ser iterado no for (https://bit.ly/2HdCRHj)
 	def quadros(self):
 		while 1:
+			self.contador_quadros += 1
 			yield self.pegar_quadro()
 
 	#Torna  mac de bytes para string
