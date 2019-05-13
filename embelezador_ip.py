@@ -43,8 +43,8 @@ class FiltroInstagram:
 
 		if self.datagrama_IP.protocolo == IP.Datagrama.TCP:
 			self.mostrar_TCP()
-		elif self.datagrama_IP.protocolo == IP.Datagrama.UDP:
-			self.mostrar_UDP()
+		#elif self.datagrama_IP.protocolo == IP.Datagrama.UDP:
+		#	self.mostrar_UDP()
 
 	def mostrar_TCP(self):
 		pacote_TCP = SegmentoTCP(bytes_brutos=self.datagrama_IP.dados)
@@ -53,6 +53,7 @@ class FiltroInstagram:
 		self.printar(white("Porta de destino: {}".format(pacote_TCP.dest_porta)), recuo=3)
 		self.printar(white("Número de sequência: {}".format(pacote_TCP.sequencia)), recuo=3)
 		self.printar(white("Número de reconhecimento: {}".format(pacote_TCP.reconhecimento)), recuo=3)
+		self.printar(white("Comprimento do cabecalho: {}".format(pacote_TCP.comprimento_cabecalho)), recuo=3)
 		self.printar(white("Flags: URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=3)
 		self.printar(white("Comprimento dos dados: {}".format(len(pacote_TCP.dados))), recuo=3)
 
