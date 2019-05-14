@@ -4,11 +4,19 @@ import socket
 #Classe que representa a camada de rede
 class IP:
 
+	dns_name_list = [] #Relembra os nomes DNS para evitar o timeout da função socket.gethostbyaddr()
+
+	#Recupera o nome DNS já pesquisados ou pergunta para o SO
 	def reverse_lookup(addr):
-		try:
-			return socket.gethostbyaddr(addr)[0]
-		except:
-			return 'None'
+		if addr in dict(IP.dns_name_list).keys():
+			return dict(IP.dns_name_list)[addr]
+		else:
+			try:
+				dns_name = socket.gethostbyaddr(addr)[0]
+				IP.dns_name_list.append((addr, dns_name))
+				return dns_name
+			except:
+				return 'None'
 
 	class Datagrama:
 
