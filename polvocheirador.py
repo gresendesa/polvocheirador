@@ -1,6 +1,6 @@
 from camada_enlace import SocketBaixoNivel, Ethernet
 from camada_rede import IP
-from embelezador_IP import FiltroInstagram
+from embelezador_ethernet import FiltroInstagram
 
 socket = SocketBaixoNivel()
 ethernet = Ethernet(bytes_socket=socket)
