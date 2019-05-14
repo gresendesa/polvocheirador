@@ -41,6 +41,8 @@ class FiltroInstagram:
 			self.printar(azul("MAC Origem:\t\t\t{}".format(self.quadro.dest, numero)), recuo=1)
 			self.printar(azul("MAC Destino:\t\t\t{}".format(self.quadro.orig, numero)), recuo=1)
 			self.mostrar_IP()
+		#else:
+		#	self.printar("Quadro Ethernet {} tipo {} (não IPv4)".format(numero, self.quadro.type))
 
 	def mostrar_IP(self):
 		self.printar(fundo_azul("Datagrama IPv{}".format(str(self.datagrama_IP.versao))), recuo=2)
