@@ -1,6 +1,6 @@
 from camada_enlace import SocketBaixoNivel, Ethernet
 from camada_rede import IP
-from embelezador_ip import FiltroInstagram
+from embelezador_IP import FiltroInstagram
 
 socket = SocketBaixoNivel()
 ethernet = Ethernet(bytes_socket=socket)
@@ -19,4 +19,4 @@ except KeyboardInterrupt:
 
 	socket.fechar()
 
-	print("PolvoCheirador fechou o socket! Programa finalizado")
+	print("\nPolvoCheirador fechou o socket! Programa finalizado")
