@@ -2,12 +2,21 @@ from camada_enlace import SocketBaixoNivel, Ethernet
 from camada_rede import IP
 from embelezador_ip import FiltroInstagram
 
-ethernet = Ethernet(bytes_socket= SocketBaixoNivel())
+socket = SocketBaixoNivel()
+ethernet = Ethernet(bytes_socket=socket)
 
-for quadro in ethernet.quadros():
+try:
 
-	if quadro.type == Ethernet.Quadro.IPv4_TYPE:
+	for quadro in ethernet.quadros():
 
-		datagrama = IP.Datagrama(bytes_brutos=quadro.data)
+		if quadro.type == Ethernet.Quadro.IPv4_TYPE:
 
-		FiltroInstagram(datagrama_IP=datagrama).mostrar_IP(numero=ethernet.contador_quadros)
+			datagrama = IP.Datagrama(bytes_brutos=quadro.data)
+
+			FiltroInstagram(datagrama_IP=datagrama).mostrar_IP(numero=ethernet.contador_quadros)
+
+except KeyboardInterrupt:
+
+	socket.fechar()
+
+	print("PolvoCheirador fechou o socket! Programa finalizado")

@@ -10,6 +10,9 @@ class SocketBaixoNivel:
 	def le(self):
 		return self.conn.recvfrom(65536)
 
+	def fechar(self):
+		self.conn.close()
+
 #Classe que representa a camada de enlace
 class Ethernet:
 

@@ -35,35 +35,39 @@ class FiltroInstagram:
 
 	def mostrar_IP(self, numero):
 		self.printar(fundo_azul("Datagrama IPv{}, do quadro Ethernet {}".format(str(self.datagrama_IP.versao), numero)))
-		self.printar(purpura_claro("Tempo de vida (TTL):\t\t" + str(self.datagrama_IP.ttl)))
-		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))))
-		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))))
-		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))))
-		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))))
+		self.printar(purpura_claro("Tempo de vida (TTL):\t\t" + str(self.datagrama_IP.ttl)), recuo=1)
+		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))), recuo=1)
+		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))), recuo=1)
+		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))), recuo=1)
+		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))), recuo=1)
 
 		if self.datagrama_IP.protocolo == IP.Datagrama.TCP:
 			self.mostrar_TCP()
-		#elif self.datagrama_IP.protocolo == IP.Datagrama.UDP:
-		#	self.mostrar_UDP()
+		elif self.datagrama_IP.protocolo == IP.Datagrama.UDP:
+			self.mostrar_UDP()
 
 	def mostrar_TCP(self):
 		pacote_TCP = SegmentoTCP(bytes_brutos=self.datagrama_IP.dados)
 		self.printar(fundo_vermelho(amarelo("Segmento TCP")), recuo=3)
-		self.printar(white("Porta de origem: {}".format(pacote_TCP.orig_porta)), recuo=3)
-		self.printar(white("Porta de destino: {}".format(pacote_TCP.dest_porta)), recuo=3)
-		self.printar(white("Número de sequência: {}".format(pacote_TCP.sequencia)), recuo=3)
-		self.printar(white("Número de reconhecimento: {}".format(pacote_TCP.reconhecimento)), recuo=3)
-		self.printar(white("Comprimento do cabecalho: {}".format(pacote_TCP.comprimento_cabecalho)), recuo=3)
-		self.printar(white("Flags: URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=3)
-		self.printar(white("Comprimento dos dados: {}".format(len(pacote_TCP.dados))), recuo=3)
+		self.printar(white("Porta de origem: {}".format(pacote_TCP.orig_porta)), recuo=4)
+		self.printar(white("Porta de destino: {}".format(pacote_TCP.dest_porta)), recuo=4)
+		self.printar(white("Número de sequência: {}".format(pacote_TCP.sequencia)), recuo=4)
+		self.printar(white("Número de reconhecimento: {}".format(pacote_TCP.reconhecimento)), recuo=4)
+		self.printar(white("Comprimento do cabecalho: {} palavras de 32 bits".format(pacote_TCP.comprimento_cabecalho)), recuo=4)
+		self.printar(white("Flags: URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=4)
+		self.printar(white("Soma de verificação: {}".format(pacote_TCP.soma_verificacao)), recuo=4)
+		self.printar(white("Ponteiro de urgência: {} ".format(pacote_TCP.ponteiro_urgencia)), recuo=4)
+		self.printar(white("Comprimento do campo de opções: {}".format(len(pacote_TCP.opcoes))), recuo=4)
+		self.printar(white("Comprimento dos dados: {}".format(len(pacote_TCP.dados))), recuo=4)
 
 	def mostrar_UDP(self):
 		pacote_UDP = SegmentoUDP(bytes_brutos=self.datagrama_IP.dados)
 		self.printar(fundo_ciano(vermelho("Segmento UDP")), recuo=3)
-		self.printar(white("Porta de origem: {}".format(pacote_UDP.orig_porta)), recuo=3)
-		self.printar(white("Porta de destino: {}".format(pacote_UDP.dest_porta)), recuo=3)
-		self.printar(white("Comprimento: {}".format(pacote_UDP.comprimento)), recuo=3)
-		self.printar(white("Comprimento dados: {}".format(len(pacote_UDP.dados))), recuo=3)
+		self.printar(white("Porta de origem: {}".format(pacote_UDP.orig_porta)), recuo=4)
+		self.printar(white("Porta de destino: {}".format(pacote_UDP.dest_porta)), recuo=4)
+		self.printar(white("Comprimento do segmento inteiro: {}".format(pacote_UDP.comprimento)), recuo=4)
+		self.printar(white("Soma de verificação: {}".format(pacote_UDP.soma_verificacao)), recuo=4)
+		self.printar(white("Comprimento dados: {}".format(len(pacote_UDP.dados))), recuo=4)
 
 	def printar(self, txt, recuo=0):
 		str_recuo = ' ' * recuo
