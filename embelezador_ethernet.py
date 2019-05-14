@@ -63,6 +63,7 @@ class FiltroInstagram:
 		self.printar(white("Número de sequência:\t{}".format(pacote_TCP.sequencia)), recuo=5)
 		self.printar(white("Número de reconhecimento:\t{}".format(pacote_TCP.reconhecimento)), recuo=5)
 		self.printar(white("Comprimento do cabecalho:\t{} palavras de 32 bits ({} bytes)".format(pacote_TCP.comprimento_cabecalho, pacote_TCP.comprimento_cabecalho * 4)), recuo=5)
+		self.printar(white("Janela de recepção:\t{}".format(pacote_TCP.janela_recepcao)), recuo=5)
 		self.printar(white("Soma de verificação:\t{}".format(pacote_TCP.soma_verificacao)), recuo=5)
 		self.printar(white("Ponteiro de urgência:\t{} ".format(pacote_TCP.ponteiro_urgencia)), recuo=5)
 		self.printar(white("Comprimento de opções:\t{} bytes".format(len(pacote_TCP.opcoes))), recuo=5)
