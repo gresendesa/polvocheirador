@@ -48,7 +48,7 @@ class FiltroInstagram:
 		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))), recuo=2)
 		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))), recuo=2)
 		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))), recuo=2)
-		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))), recuo=2)
+		self.printar(ciano("Tamanho dos dados:\t\t{} bytes".format(str(len(self.datagrama_IP.dados)))), recuo=2)
 
 		if self.datagrama_IP.protocolo == IP.Datagrama.TCP:
 			self.mostrar_TCP()
@@ -62,11 +62,11 @@ class FiltroInstagram:
 		self.printar(white("Porta de destino:\t\t{}".format(pacote_TCP.dest_porta)), recuo=4)
 		self.printar(white("Número de sequência:\t{}".format(pacote_TCP.sequencia)), recuo=4)
 		self.printar(white("Número de reconhecimento:\t{}".format(pacote_TCP.reconhecimento)), recuo=4)
-		self.printar(white("Comprimento do cabecalho:\t{} palavras de 32 bits".format(pacote_TCP.comprimento_cabecalho)), recuo=4)
+		self.printar(white("Comprimento do cabecalho:\t{} palavras de 32 bits ({} bytes)".format(pacote_TCP.comprimento_cabecalho, pacote_TCP.comprimento_cabecalho * 4)), recuo=4)
 		self.printar(white("Soma de verificação:\t{}".format(pacote_TCP.soma_verificacao)), recuo=4)
 		self.printar(white("Ponteiro de urgência:\t{} ".format(pacote_TCP.ponteiro_urgencia)), recuo=4)
-		self.printar(white("Comprimento de opções:\t{}".format(len(pacote_TCP.opcoes))), recuo=4)
-		self.printar(white("Comprimento dos dados:\t{}".format(len(pacote_TCP.dados))), recuo=4)
+		self.printar(white("Comprimento de opções:\t{} bytes".format(len(pacote_TCP.opcoes))), recuo=4)
+		self.printar(white("Comprimento dos dados:\t{} bytes".format(len(pacote_TCP.dados))), recuo=4)
 		self.printar(magenta("URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=4)
 
 	def mostrar_UDP(self):
@@ -74,9 +74,9 @@ class FiltroInstagram:
 		self.printar(fundo_ciano(vermelho("Segmento UDP")), recuo=3)
 		self.printar(white("Porta de origem:\t\t{}".format(pacote_UDP.orig_porta)), recuo=4)
 		self.printar(white("Porta de destino:\t\t{}".format(pacote_UDP.dest_porta)), recuo=4)
-		self.printar(white("Comprimento do segmento:\t{}".format(pacote_UDP.comprimento)), recuo=4)
+		self.printar(white("Comprimento do segmento:\t{} bytes".format(pacote_UDP.comprimento)), recuo=4)
 		self.printar(white("Soma de verificação:\t{}".format(pacote_UDP.soma_verificacao)), recuo=4)
-		self.printar(white("Comprimento dados:\t\t{}".format(len(pacote_UDP.dados))), recuo=4)
+		self.printar(white("Comprimento dados:\t\t{} bytes".format(len(pacote_UDP.dados))), recuo=4)
 
 	def printar(self, txt, recuo=0):
 		str_recuo = ' ' * recuo
