@@ -1,6 +1,6 @@
 from camada_enlace import Ethernet
 from camada_rede import IP
-from camada_transporte import SegmentoTCP, SegmentoUDP
+from camada_transporte import Transporte
 
 #Ideias das cores tiradas de https://www.geeksforgeeks.org/print-colors-python-terminal/
 color = lambda color, txt='': "{}{}\033[00m".format(color, txt)
@@ -56,10 +56,10 @@ class FiltroInstagram:
 			self.mostrar_UDP()
 
 	def mostrar_TCP(self):
-		pacote_TCP = SegmentoTCP(bytes_brutos=self.datagrama_IP.dados)
+		pacote_TCP = Transporte.SegmentoTCP(bytes_brutos=self.datagrama_IP.dados)
 		self.printar(fundo_vermelho(amarelo("Segmento TCP")), recuo=3)
-		self.printar(white("Porta de origem:\t\t{}".format(pacote_TCP.orig_porta)), recuo=4)
-		self.printar(white("Porta de destino:\t\t{}".format(pacote_TCP.dest_porta)), recuo=4)
+		self.printar(white("Porta de origem:\t\t{} {}".format(pacote_TCP.orig_porta, Transporte.apelido_porta(pacote_TCP.orig_porta, 'tcp'))), recuo=4)
+		self.printar(white("Porta de destino:\t\t{} {}".format(pacote_TCP.dest_porta, Transporte.apelido_porta(pacote_TCP.dest_porta, 'tcp'))), recuo=4)
 		self.printar(white("Número de sequência:\t{}".format(pacote_TCP.sequencia)), recuo=4)
 		self.printar(white("Número de reconhecimento:\t{}".format(pacote_TCP.reconhecimento)), recuo=4)
 		self.printar(white("Comprimento do cabecalho:\t{} palavras de 32 bits ({} bytes)".format(pacote_TCP.comprimento_cabecalho, pacote_TCP.comprimento_cabecalho * 4)), recuo=4)
@@ -70,10 +70,10 @@ class FiltroInstagram:
 		self.printar(magenta("URG:{} ACK:{} PSH:{} RST:{} SYN:{} FIN:{} ".format(*pacote_TCP.flags)), recuo=4)
 
 	def mostrar_UDP(self):
-		pacote_UDP = SegmentoUDP(bytes_brutos=self.datagrama_IP.dados)
+		pacote_UDP = Transporte.SegmentoUDP(bytes_brutos=self.datagrama_IP.dados)
 		self.printar(fundo_ciano(vermelho("Segmento UDP")), recuo=3)
-		self.printar(white("Porta de origem:\t\t{}".format(pacote_UDP.orig_porta)), recuo=4)
-		self.printar(white("Porta de destino:\t\t{}".format(pacote_UDP.dest_porta)), recuo=4)
+		self.printar(white("Porta de origem:\t\t{} {}".format(pacote_UDP.orig_porta, Transporte.apelido_porta(pacote_UDP.orig_porta))), recuo=4)
+		self.printar(white("Porta de destino:\t\t{} {}".format(pacote_UDP.dest_porta, Transporte.apelido_porta(pacote_UDP.dest_porta))), recuo=4)
 		self.printar(white("Comprimento do segmento:\t{} bytes".format(pacote_UDP.comprimento)), recuo=4)
 		self.printar(white("Soma de verificação:\t{}".format(pacote_UDP.soma_verificacao)), recuo=4)
 		self.printar(white("Comprimento dados:\t\t{} bytes".format(len(pacote_UDP.dados))), recuo=4)
