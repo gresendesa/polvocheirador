@@ -44,6 +44,7 @@ class Ethernet:
 		return ':'.join(str_endr).upper()
 
 	#Classe que representa um quadro Ethernet (da camada de enlace)
+	#Ver 349 do KUrose para saber como montar um pacote Ethernet. (para o spoofing)
 	class Quadro:
 
 		IPv4_TYPE = 8
