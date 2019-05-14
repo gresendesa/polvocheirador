@@ -16,7 +16,7 @@ class IP:
 				IP.dns_name_list.append((addr, dns_name))
 				return dns_name
 			except:
-				return 'None'
+				return 'Nome DNS não encontrado'
 
 	class Datagrama:
 
