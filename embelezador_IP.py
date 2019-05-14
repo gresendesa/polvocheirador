@@ -1,3 +1,4 @@
+from camada_enlace import Ethernet
 from camada_rede import IP
 from camada_transporte import SegmentoTCP, SegmentoUDP
 
@@ -30,16 +31,24 @@ fundo_cinza_claro = lambda txt='': color(color="\033[47m", txt=txt)
 #Classe que representa a transformação dos dados em linhas legíveis no teminal
 class FiltroInstagram:
 
-	def __init__(self, datagrama_IP):
-		self.datagrama_IP = datagrama_IP
+	def __init__(self, quadro_ethernet):
+		self.quadro = quadro_ethernet
+		self.datagrama_IP = IP.Datagrama(bytes_brutos=self.quadro.data)
 
-	def mostrar_IP(self, numero):
-		self.printar(fundo_azul("Datagrama IPv{}, do quadro Ethernet {}".format(str(self.datagrama_IP.versao), numero)))
-		self.printar(purpura_claro("Tempo de vida (TTL):\t\t" + str(self.datagrama_IP.ttl)), recuo=1)
-		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))), recuo=1)
-		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))), recuo=1)
-		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))), recuo=1)
-		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))), recuo=1)
+	def pormenorizar(self, numero):
+		if self.quadro.type == Ethernet.Quadro.IPv4_TYPE:
+			self.printar(fundo_purpura("Quadro Ethernet {}".format(numero)), recuo=0)
+			self.printar(azul("MAC Origem:\t\t\t{}".format(self.quadro.dest, numero)), recuo=1)
+			self.printar(azul("MAC Destino:\t\t\t{}".format(self.quadro.orig, numero)), recuo=1)
+			self.mostrar_IP()
+
+	def mostrar_IP(self):
+		self.printar(fundo_azul("Datagrama IPv{}".format(str(self.datagrama_IP.versao))), recuo=1)
+		self.printar(purpura_claro("Tempo de vida (TTL):\t\t" + str(self.datagrama_IP.ttl)), recuo=2)
+		self.printar(amarelo("Protocolo da camada superior:\t{}".format('TCP' if self.datagrama_IP.protocolo == IP.Datagrama.TCP else 'UDP' if self.datagrama_IP.protocolo == IP.Datagrama.UDP else str(self.datagrama_IP.protocolo))), recuo=2)
+		self.printar(verde_claro("Endereço de Origem:\t\t{} ({})".format(self.datagrama_IP.orig, IP.reverse_lookup(addr=self.datagrama_IP.orig))), recuo=2)
+		self.printar(cinza_claro("Endereço de Destino:\t\t{} ({})".format(self.datagrama_IP.dest, IP.reverse_lookup(addr=self.datagrama_IP.dest))), recuo=2)
+		self.printar(ciano("Tamanho dos dados:\t\t" + str(len(self.datagrama_IP.dados))), recuo=2)
 
 		if self.datagrama_IP.protocolo == IP.Datagrama.TCP:
 			self.mostrar_TCP()

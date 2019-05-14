@@ -9,11 +9,7 @@ try:
 
 	for quadro in ethernet.quadros():
 
-		if quadro.type == Ethernet.Quadro.IPv4_TYPE:
-
-			datagrama = IP.Datagrama(bytes_brutos=quadro.data)
-
-			FiltroInstagram(datagrama_IP=datagrama).mostrar_IP(numero=ethernet.contador_quadros)
+		FiltroInstagram(quadro_ethernet=quadro).pormenorizar(numero=ethernet.contador_quadros)
 
 except KeyboardInterrupt:
 
